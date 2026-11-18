@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marmita Express | Suíte de Testes Funcionais & Segurança</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      background-color: #f4f5f8;
+      padding: 2rem;
+    }
+    .test-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+    }
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .stats-bar {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-badge {
+      padding: 0.75rem 1.25rem;
+      border-radius: var(--radius-md);
+      font-weight: bold;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .stat-pass {
+      background-color: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid #c8e6c9;
+    }
+    .stat-fail {
+      background-color: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid #ffcdd2;
+    }
+    .test-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .test-table th, .test-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    .test-table th {
+      background: #fafafa;
+      font-weight: 700;
+    }
+    .badge-pass {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .badge-fail {
+      background-color: #ffebee;
+      color: #c62828;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .category-header {
+      background-color: #f0f0f5;
+      font-weight: 800;
+      color: #333;
+      padding: 8px 14px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="test-container">
+    <a href="../index.html" class="back-link">← Voltar para o Marmita Express</a>
+    
+    <div class="test-header">
+      <div>
+        <h1>🧪 Suíte de Testes Automatizados</h1>
+        <p class="text-secondary">Validação de Conformidade Acadêmica, Guardrails de Segurança e Regras Comerciais.</p>
+      </div>
+      <button id="btn-run-tests" class="btn btn-primary">Reexecutar Testes</button>
+    </div>
+
+    <!-- Estatísticas dos Testes -->
+    <div class="stats-bar">
+      <div id="stat-total" class="stat-badge" style="background: #e3f2fd; color: #1565c0;">
+        Total: <span id="count-total">0</span>
+      </div>
+      <div id="stat-pass" class="stat-badge stat-pass">
+        Aprovados (PASS): <span id="count-pass">0</span>
+      </div>
+      <div id="stat-fail" class="stat-badge stat-fail">
+        Reprovados (FAIL): <span id="count-fail">0</span>
+      </div>
+    </div>
+
+    <!-- Tabela de Resultados -->
+    <table class="test-table">
+      <thead>
+        <tr>
+          <th style="width: 100px;">Status</th>
+          <th style="width: 120px;">Categoria</th>
+          <th>Cenário de Teste</th>
+          <th>Entrada / Operação</th>
+          <th>Resultado Esperado</th>
+          <th>Detalhes</th>
+        </tr>
+      </thead>
+      <tbody id="test-results-tbody">
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 2rem;">Executando testes automatizados no navegador...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="module">
+    import { TestRunner } from './security-tests.js';
+
+    const runner = new TestRunner();
+    const tbody = document.getElementById('test-results-tbody');
+    const countTotal = document.getElementById('count-total');
+    const countPass = document.getElementById('count-pass');
+    const countFail = document.getElementById('count-fail');
+    const btnRun = document.getElementById('btn-run-tests');
+
+    async function execute() {
+      btnRun.disabled = true;
+      btnRun.textContent = 'Executando...';
+
+      const results = await runner.runAll();
+
+      tbody.innerHTML = '';
+      let passCount = 0;
+      let failCount = 0;
+
+      results.forEach(res => {
+        if (res.passed) passCount++;
+        else failCount++;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="${res.passed ? 'badge-pass' : 'badge-fail'}">${res.passed ? 'PASS' : 'FAIL'}</span></td>
+          <td><strong>${res.category}</strong></td>
+          <td>${res.name}</td>
+          <td><code>${res.input}</code></td>
+          <td>${res.expected}</td>
+          <td><small>${res.details || '-'}</small></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      countTotal.textContent = results.length.toString();
+      countPass.textContent = passCount.toString();
+      countFail.textContent = failCount.toString();
+
+      btnRun.disabled = false;
+      btnRun.textContent = 'Reexecutar Testes';
+    }
+
+    btnRun.addEventListener('click', execute);
+    document.addEventListener('DOMContentLoaded', execute);
+  </script>
+</body>
+</html>

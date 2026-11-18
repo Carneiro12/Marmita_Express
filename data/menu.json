@@ -1,0 +1,122 @@
+[
+  {
+    "id": "frango_grelhado",
+    "name": "Marmita de Frango Grelhado",
+    "description": "Filé de frango suculento grelhado na chapa acompanhado de arroz soltinho, feijão caseiro e salada fresca.",
+    "price": 22.00,
+    "category": "Aves",
+    "ingredients": ["Filé de frango", "Arroz branco", "Feijão carioquinha", "Salada de alface e tomate", "Alho", "Cebola", "Azeite"],
+    "sideDishes": ["Arroz branco", "Feijão carioquinha", "Salada fresca"],
+    "availableDays": [0, 1, 2, 3, 4, 5, 6],
+    "customizationOptions": {
+      "removableIngredients": ["Alho", "Cebola", "Salada de alface e tomate", "Feijão carioquinha"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem sal", "Mais alho", "Sem pimenta", "Tempero suave"],
+      "allowedCookingPoints": []
+    }
+  },
+  {
+    "id": "bife_acebolado",
+    "name": "Marmita de Bife Acebolado",
+    "description": "Bife bovino macio acebolado, arroz branco, feijão carioquinha e farofa crocante.",
+    "price": 25.00,
+    "category": "Carnes",
+    "ingredients": ["Bife bovino (alcatra)", "Cebola fatiada", "Arroz branco", "Feijão carioquinha", "Farofa de milho", "Alho"],
+    "sideDishes": ["Arroz branco", "Feijão carioquinha", "Farofa crocante"],
+    "availableDays": [1, 2, 3, 4, 5],
+    "customizationOptions": {
+      "removableIngredients": ["Cebola fatiada", "Farofa de milho", "Feijão carioquinha", "Alho"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta", "Mais alho", "Tempero suave"],
+      "allowedCookingPoints": ["Malpassado", "Ao ponto", "Bem passado"]
+    }
+  },
+  {
+    "id": "carne_moida",
+    "name": "Marmita de Carne Moída com Batata",
+    "description": "Carne moída refogada com cubinhos de batata macia, arroz, feijão e couve refogada.",
+    "price": 23.00,
+    "category": "Carnes",
+    "ingredients": ["Carne moída (patinho)", "Batata inglesa", "Arroz branco", "Feijão carioquinha", "Couve refogada", "Alho", "Cebola"],
+    "sideDishes": ["Arroz branco", "Feijão carioquinha", "Couve refogada"],
+    "availableDays": [1, 3, 5],
+    "customizationOptions": {
+      "removableIngredients": ["Cebola", "Alho", "Couve refogada", "Batata inglesa"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta", "Tempero suave"],
+      "allowedCookingPoints": []
+    }
+  },
+  {
+    "id": "strogonoff_frango",
+    "name": "Marmita de Strogonoff de Frango",
+    "description": "Clássico strogonoff cremoso com champignon, arroz branco e batata palha super crocante.",
+    "price": 26.00,
+    "category": "Aves",
+    "ingredients": ["Iscas de frango", "Molho de strogonoff com creme de leite", "Champignon", "Arroz branco", "Batata palha", "Cebola"],
+    "sideDishes": ["Arroz branco", "Batata palha crocante"],
+    "availableDays": [2, 4, 6],
+    "customizationOptions": {
+      "removableIngredients": ["Champignon", "Batata palha", "Cebola"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta"],
+      "allowedCookingPoints": []
+    }
+  },
+  {
+    "id": "linguica_acebolada",
+    "name": "Marmita de Linguiça Acebolada",
+    "description": "Linguiça toscana grelhada com cebola dourada, arroz, feijão preto e vinagrete.",
+    "price": 22.00,
+    "category": "Carnes",
+    "ingredients": ["Linguiça toscana", "Cebola dourada", "Arroz branco", "Feijão preto", "Vinagrete de tomate e cebola"],
+    "sideDishes": ["Arroz branco", "Feijão preto", "Vinagrete"],
+    "availableDays": [1, 2, 4],
+    "customizationOptions": {
+      "removableIngredients": ["Cebola dourada", "Vinagrete de tomate e cebola", "Feijão preto"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta"],
+      "allowedCookingPoints": []
+    }
+  },
+  {
+    "id": "peixe_grelhado",
+    "name": "Marmita de Peixe Grelhado",
+    "description": "Filé de tilápia grelhado com azeite e ervas, acompanhado de purê de batata e legumes no vapor.",
+    "price": 27.00,
+    "category": "Peixes",
+    "ingredients": ["Filé de tilápia", "Azeite de oliva", "Ervas finas", "Purê de batatas", "Legumes no vapor (cenoura e brócolis)"],
+    "sideDishes": ["Purê de batatas", "Legumes no vapor"],
+    "availableDays": [3, 5, 6],
+    "customizationOptions": {
+      "removableIngredients": ["Ervas finas", "Legumes no vapor (cenoura e brócolis)", "Purê de batatas"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta", "Mais limão", "Tempero suave"],
+      "allowedCookingPoints": []
+    }
+  },
+  {
+    "id": "vegetariana",
+    "name": "Marmita Vegetariana Especial",
+    "description": "Mix de cogumelos salteados, arroz integral, feijão carioquinha, abóbora assada e brócolis ao alho.",
+    "price": 21.00,
+    "category": "Vegetariano",
+    "ingredients": ["Cogumelos salteados (shimeji e paris)", "Arroz integral", "Feijão carioquinha", "Abóbora cabotiá assada", "Brócolis", "Alho"],
+    "sideDishes": ["Arroz integral", "Feijão carioquinha", "Abóbora assada"],
+    "availableDays": [0, 1, 2, 3, 4, 5, 6],
+    "customizationOptions": {
+      "removableIngredients": ["Alho", "Abóbora cabotiá assada", "Brócolis", "Feijão carioquinha"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta", "Mais alho", "Tempero suave"],
+      "allowedCookingPoints": []
+    }
+  },
+  {
+    "id": "feijoada",
+    "name": "Marmita de Feijoada Completa",
+    "description": "Tradicional feijoada com carnes nobres, arroz branco, couve refogada, farofa e gomos de laranja.",
+    "price": 28.00,
+    "category": "Especiais",
+    "ingredients": ["Feijão preto com carnes nobres", "Arroz branco", "Couve refogada", "Farofa temperada", "Gomos de laranja fresca"],
+    "sideDishes": ["Arroz branco", "Couve refogada", "Farofa temperada", "Laranja"],
+    "availableDays": [3, 6],
+    "customizationOptions": {
+      "removableIngredients": ["Couve refogada", "Farofa temperada", "Gomos de laranja fresca"],
+      "allowedSeasonings": ["Padrão", "Pouco sal", "Sem pimenta"],
+      "allowedCookingPoints": []
+    }
+  }
+]

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marmita Express | Chatbot Inteligente & Cardápio</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><text y=%22.9em%22 font-size=%2290%22>🍱</text></svg>">
+</head>
+<body>
+
+  <!-- Top Bar / Header -->
+  <header class="main-header">
+    <div class="brand">
+      <div class="brand-logo">🍱</div>
+      <div>
+        <h1 class="brand-title">Marmita Express</h1>
+        <p class="brand-subtitle">Comida caseira de verdade, quentinha na sua porta!</p>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span>Aberto Hoje</span>
+      </div>
+      <span id="active-mode-badge" class="badge badge-demo">Modo Demonstração</span>
+    </div>
+  </header>
+
+  <!-- Container Principal em 3 Colunas -->
+  <main class="app-container">
+    
+    <!-- COLUNA 1: Cardápio Dinâmico Oficial -->
+    <section class="panel menu-panel" aria-labelledby="menu-title">
+      <div class="panel-header">
+        <h2 id="menu-title" class="panel-title">📖 Cardápio do Dia</h2>
+        <span id="current-day-badge" class="badge badge-ia">Carregando...</span>
+      </div>
+
+      <!-- Filtro de Dia (Para demonstração e testes de disponibilidade) -->
+      <div class="menu-controls">
+        <div class="day-filter">
+          <label for="day-selector"><strong>📅 Dia da Semana:</strong></label>
+          <select id="day-selector" class="day-select"></select>
+        </div>
+        <small class="text-muted">A disponibilidade muda conforme o dia</small>
+      </div>
+
+      <!-- Grid dos Pratos -->
+      <div id="menu-grid" class="menu-grid">
+        <!-- Renderizado dinamicamente pelo JavaScript -->
+      </div>
+    </section>
+
+    <!-- COLUNA 2: Chatbot Inteligente -->
+    <section class="panel chat-panel" aria-labelledby="chat-title">
+      <div class="panel-header">
+        <h2 id="chat-title" class="panel-title">🤖 Atendente Virtual</h2>
+        <button id="btn-clear-chat" class="btn btn-secondary btn-sm" title="Limpar conversa">Limpar Chat</button>
+      </div>
+
+      <!-- Mensagens da conversa -->
+      <div id="chat-messages" class="chat-messages" role="log" aria-live="polite">
+        <!-- Inseridas dinamicamente via textContent seguro -->
+      </div>
+
+      <!-- Indicador digitando -->
+      <div id="typing-indicator" class="typing-indicator hidden">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+
+      <!-- Sugestões de mensagens rápidas / Ações Frequentes -->
+      <div id="quick-replies" class="quick-replies">
+        <button class="quick-reply-btn" data-text="Ver cardápio de hoje">📋 Ver cardápio de hoje</button>
+        <button class="quick-reply-btn" data-text="Quero uma marmita de bife acebolado">🥩 Pedir Bife Acebolado</button>
+        <button class="quick-reply-btn" data-text="Quero uma marmita de frango grelhado">🍗 Pedir Frango Grelhado</button>
+        <button class="quick-reply-btn" data-text="Quanto ficou meu pedido?">💰 Quanto ficou tudo?</button>
+      </div>
+
+      <!-- Barra de Atalhos Rápidos dos Pratos de Hoje -->
+      <div class="dish-shortcuts-bar">
+        <span class="shortcuts-title">⚡ Pedir pelo chat:</span>
+        <div id="dish-shortcuts" class="dish-shortcuts-container">
+          <!-- Botões rápidos de cada prato gerados dinamicamente -->
+        </div>
+      </div>
+
+      <!-- Formulário de entrada -->
+      <div class="chat-input-area">
+        <input 
+          type="text" 
+          id="chat-input" 
+          class="chat-input" 
+          placeholder="Digite seu pedido ou dúvida..." 
+          maxlength="500"
+          autocomplete="off"
+        >
+        <button id="btn-send" class="btn btn-primary" aria-label="Enviar mensagem">Enviar</button>
+      </div>
+    </section>
+
+    <!-- COLUNA 3: Carrinho e Gestão de Pedidos -->
+    <section class="panel cart-panel" aria-labelledby="cart-title">
+      <div class="panel-header">
+        <h2 id="cart-title" class="panel-title">
+          🛒 Seu Pedido
+          <span id="cart-count-badge" class="badge badge-demo">0</span>
+        </h2>
+        <button id="btn-clear-cart" class="btn btn-secondary btn-sm" title="Esvaziar carrinho">Esvaziar</button>
+      </div>
+
+      <!-- Lista de Itens no Carrinho -->
+      <div id="cart-items-list" class="cart-items-list">
+        <!-- Renderizado dinamicamente -->
+      </div>
+
+      <!-- Resumo Financeiro (Cálculos por Pricing.js) -->
+      <div class="cart-summary-area">
+        <div class="summary-row">
+          <span>Subtotal dos itens:</span>
+          <span id="cart-subtotal">R$ 0,00</span>
+        </div>
+        <div class="summary-row">
+          <span>Taxa de entrega (fixa):</span>
+          <span id="cart-delivery">R$ 0,00</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total Final:</span>
+          <span id="cart-total">R$ 0,00</span>
+        </div>
+
+        <button id="btn-checkout" class="btn btn-primary btn-block" style="margin-top: 12px;" disabled>
+          Confirmar Pedido (Simulação)
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ÁREA DE CONFIGURAÇÕES & CONTROLE DA IA -->
+  <section class="config-section">
+    <div class="config-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <h3>⚙️ Painel de Configurações & Integração com IA</h3>
+        <div>
+          Status da Conexão: <span id="connection-status-badge" class="badge badge-warning">Offline (Local)</span>
+        </div>
+      </div>
+
+      <div class="config-grid">
+        <!-- Chave de API Google Gemini -->
+        <div class="form-group">
+          <label for="api-key-input">API Key do Google Gemini (Mantida em memória):</label>
+          <div class="input-with-button">
+            <input 
+              type="password" 
+              id="api-key-input" 
+              placeholder="Cole sua chave AIzaSy..." 
+              autocomplete="off"
+            >
+            <button id="btn-save-api-key" class="btn btn-primary btn-sm">Ativar</button>
+            <button id="btn-clear-api-key" class="btn btn-secondary btn-sm" title="Limpar chave da memória">Limpar</button>
+          </div>
+          <small class="text-muted">A chave é mantida apenas na memória RAM durante a sessão e nunca é enviada a servidores de terceiros ou salva no LocalStorage.</small>
+        </div>
+
+        <!-- Modo de Operação -->
+        <div class="form-group">
+          <label for="mode-selector">Modo de Operação do Chatbot:</label>
+          <select id="mode-selector" class="day-select">
+            <option value="demo">Modo Demonstração (Sem Chave / Determinístico Local)</option>
+            <option value="ia">Modo IA (Google Gemini 1.5 Flash)</option>
+          </select>
+          <small class="text-muted">O Modo Demonstração permite testar todo o fluxo e guardrails sem consumir cotas de API.</small>
+        </div>
+
+        <!-- Links Rápidos Acadêmicos -->
+        <div class="form-group">
+          <label>Suíte de Validação & Testes:</label>
+          <div style="margin-top: 4px;">
+            <a href="tests/index.html" class="btn btn-secondary btn-sm" target="_blank">
+              🧪 Abrir Suíte de Testes (Funcionais & Segurança)
+            </a>
+          </div>
+          <small class="text-muted">Executa os testes automáticos de Prompt Injection, Jailbreak e Catálogo no navegador.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL: Personalização de Marmita -->
+  <div id="customize-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="customize-dish-title">Personalizar Marmita</h3>
+        <button id="customize-modal-close" class="modal-close-btn" aria-label="Fechar">&times;</button>
+      </div>
+
+      <form id="customize-form" class="modal-body">
+        <div class="form-group">
+          <label><strong>Remover Ingredientes:</strong></label>
+          <div id="customize-ingredients-group"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="customize-seasoning-select"><strong>Opção de Tempero:</strong></label>
+          <select id="customize-seasoning-select" class="day-select"></select>
+        </div>
+
+        <div id="customize-cooking-point-group" class="form-group hidden">
+          <label for="customize-cooking-point-select"><strong>Ponto da Carne:</strong></label>
+          <select id="customize-cooking-point-select" class="day-select"></select>
+        </div>
+
+        <div class="form-group">
+          <label for="customize-qty-input"><strong>Quantidade:</strong></label>
+          <input type="number" id="customize-qty-input" min="1" max="20" value="1" class="day-select" style="width: 100px;">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('customize-modal').classList.add('hidden')">Cancelar</button>
+          <button type="submit" id="customize-confirm-btn" class="btn btn-primary">Adicionar ao Carrinho</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Confirmação Simulada de Pedido -->
+  <div id="checkout-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3>Finalização de Pedido</h3>
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Fechar">&times;</button>
+      </div>
+      <div id="checkout-summary-content" class="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="document.getElementById('checkout-modal').classList.add('hidden')">Concluir Simulação</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="main-footer">
+    <p><strong>Marmita Express</strong> &copy; 2026 - Projeto Acadêmico de Chatbot com IA & Guardrails Client-Side.</p>
+    <div class="footer-links">
+      <a href="tests/index.html">🧪 Executar Testes</a>
+      <span>•</span>
+      <a href="#menu-title">Cardápio Oficial</a>
+      <span>•</span>
+      <a href="https://ai.google.dev/" target="_blank" rel="noopener">Google Gemini API</a>
+    </div>
+  </footer>
+
+  <!-- Scripts ES6 Modularizados -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
